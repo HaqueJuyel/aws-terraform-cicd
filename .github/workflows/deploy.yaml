@@ -10,14 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./infra   # 👈 run Terraform inside infra folder
+        working-directory: ./infra   # 👈 Terraform code inside infra folder
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5   # 👈 specify Terraform version for consistency
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -26,11 +28,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Cache Terraform plugins
+        uses: actions/cache@v3
+        with:
+          path: ~/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-${{ hashFiles('infra/**/*.tf') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -input=false -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -input=false -auto-approve tfplan
