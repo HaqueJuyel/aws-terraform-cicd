@@ -10,19 +10,23 @@
         "s3:ListBucket"
       ],
       "Resource": [
-        "arn:aws:s3:::your-terraform-state-bucket",
-        "arn:aws:s3:::your-terraform-state-bucket/*"
+        "arn:aws:s3:::my-terraform-state-bucket1ju",
+        "arn:aws:s3:::my-terraform-state-bucket1ju/*"
       ]
     },
     {
       "Effect": "Allow",
       "Action": [
-        "dynamodb:GetItem",
-        "dynamodb:PutItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:DescribeTable"
+        "ec2:*"
       ],
-      "Resource": "arn:aws:dynamodb:us-east-1:ACCOUNT_ID:table/terraform-state-lock"
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:*"
+      ],
+      "Resource": "*"
     }
   ]
 }
