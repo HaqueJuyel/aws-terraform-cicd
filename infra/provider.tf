@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "juyel_githubaction"
+    bucket         = "my-terraform-state-bucket1ju"
     key            = "ec2/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true

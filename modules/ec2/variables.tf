@@ -12,7 +12,7 @@ variable "instance_type" {
 variable "instance_name" {
   description = "Tag Name for instance"
   type        = string
-  default     = "terraform-ec2"
+  default     = "terraform-ec2-test"
 }
 
 variable "subnet_id" {
