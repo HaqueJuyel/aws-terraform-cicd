@@ -1,4 +1,6 @@
 name: Deploy EC2 with Terraform
+# Trigger the workflow on push to main branch
+
 on:
   push:
     branches:
